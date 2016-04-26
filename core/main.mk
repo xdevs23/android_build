@@ -566,7 +566,7 @@ ifeq ($(USE_SOONG),true)
 subdir_makefiles := $(SOONG_ANDROID_MK) $(call filter-soong-makefiles,$(subdir_makefiles))
 endif
 
-$(foreach mk, $(subdir_makefiles), $(eval include $(mk)))
+$(foreach mk, $(subdir_makefiles),$(info $(shell echo -e "\033[34;1mIncluding\033[0m $(mk) ...")) $(eval include $(mk));)
 
 ifdef PDK_FUSION_PLATFORM_ZIP
 # Bring in the PDK platform.zip modules.
