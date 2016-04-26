@@ -174,13 +174,14 @@ function check_product()
         return
     fi
 
-    if (echo -n $1 | grep -q -e "^cm_") ; then
-       CM_BUILD=$(echo -n $1 | sed -e 's/^cm_//g')
-       export BUILD_NUMBER=$((date +%s%N ; echo $CM_BUILD; hostname) | openssl sha1 | sed -e 's/.*=//g; s/ //g' | cut -c1-10)
+# Set XOS_BUILD
+    if (echo -n $1 | grep -q -e "^XOS_") ; then
+        XOS_BUILD=$(echo -n $1 | sed -e 's/^XOS_//g')
     else
-       CM_BUILD=
+        XOS_BUILD=
     fi
-    export CM_BUILD
+    export XOS_BUILD
+# ------------
 
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
