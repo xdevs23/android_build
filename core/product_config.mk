@@ -195,7 +195,7 @@ else
 
 endif
 
-ifeq ($(CM_BUILD),)
+ifeq ($(XOS_BUILD),)
 # Find the product config makefile for the current product.
 # all_product_configs consists items like:
 # <product_name>:<path_to_the_product_makefile>
@@ -269,7 +269,6 @@ endif
 current_product_makefile :=
 all_product_makefiles :=
 all_product_configs :=
-
 
 #############################################################################
 
