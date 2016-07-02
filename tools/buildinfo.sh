@@ -65,6 +65,6 @@ if [ "$TARGET_UNIFIED_DEVICE" == "" ] ; then
 fi
 echo "ro.build.characteristics=$TARGET_AAPT_CHARACTERISTICS"
 
-echo "ro.XOS.device=$XOS_DEVICE"
+echo "ro.xos.device=$XOS_DEVICE"
 
 echo "# end build properties"
