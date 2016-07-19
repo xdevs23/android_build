@@ -131,11 +131,17 @@ OPTIONS.no_signing = False
 OPTIONS.block_based = False
 OPTIONS.updater_binary = None
 OPTIONS.oem_source = None
+OPTIONS.oem_no_mount = False
+OPTIONS.backuptool = True
 OPTIONS.fallback_to_full = True
 OPTIONS.full_radio = False
-OPTIONS.backuptool = False
-OPTIONS.override_device = 'auto'
-OPTIONS.override_prop = False
+OPTIONS.full_bootloader = False
+# Stash size cannot exceed cache_size * threshold.
+OPTIONS.cache_size = None
+OPTIONS.stash_threshold = 0.8
+OPTIONS.gen_verify = False
+OPTIONS.log_diff = None
+OPTIONS.backuptool = True
 
 def MostPopularKey(d, default):
   """Given a dict, return the key corresponding to the largest
