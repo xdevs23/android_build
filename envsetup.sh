@@ -1,3 +1,44 @@
+#
+# Android Platform Development Environment Setup
+#
+
+
+# Source of colors: http://misc.flogisoft.com/bash/tip_colors_and_formatting
+export CL_RESET="\033[0m"
+export EF_BOLD="\033[1m"
+
+export CL_RED="\033[31m"
+export CL_GREEN="\033[32m"
+export CL_YELLOW="\033[33m"
+export CL_BLUE="\033[34m"
+export CL_MAGENTA="\033[35m"
+export CL_CYAN="\033[36m"
+export CL_LGRAY="\033[37m"
+export CL_DGRAY="\033[90m"
+export CL_LRED="\033[91m"
+export CL_LGREEN="\033[92m"
+export CL_LYELLOW="\033[93m"
+export CL_LBLUE="\033[94m"
+export CL_LMAGENTA="\033[95m"
+export CL_LCYAN="\033[96m"
+export CL_LWHITE="\033[97m"
+
+export BG_DEFAULT="\033[49m"
+export BG_RED="\033[41m"
+export BG_GREEN="\033[42m"
+export BG_BLUE="\033[44m"
+export BG_DGRAY="\033[100m"
+
+export CL_XOS="\033[38;5;39m"
+export CL_XOSBOLD="\033[38;5;39;1m"
+
+export EF_UNDERLINE="\033[4m"
+export EF_DIM="\033[2m"
+export EF_BLINK="\033[5m"
+export EF_INVERT="\033[7m"
+export EF_HIDDEN="\033[8m"
+
+
 function hmm() {
 cat <<EOF
 Invoke ". build/envsetup.sh" from your shell to add the following functions to your environment:
@@ -26,21 +67,9 @@ Invoke ". build/envsetup.sh" from your shell to add the following functions to y
 - sepgrep:   Greps on all local sepolicy files.
 - sgrep:     Greps on all local source files.
 - godir:     Go to the directory containing a file.
-- cmremote: Add git remote for CM Gerrit Review
-- cmgerrit: A Git wrapper that fetches/pushes patch from/to CM Gerrit Review
-- cmrebase: Rebase a Gerrit change and push it again
-- aospremote: Add git remote for matching AOSP repository
-- cafremote: Add git remote for matching CodeAurora repository.
-- mka:      Builds using SCHED_BATCH on all processors
-- mkap:     Builds the module(s) using mka and pushes them to the device.
-- cmka:     Cleans and builds using mka.
-- repolastsync: Prints date and time of last repo sync.
-- reposync: Parallel repo sync using ionice and SCHED_BATCH
-- repopick: Utility to fetch changes from Gerrit.
-- installboot: Installs a boot.img to the connected device.
-- installrecovery: Installs a recovery.img to the connected device.
+- reposync:  Optimized repo sync
 
-Environemnt options:
+Environment options:
 - SANITIZE_HOST: Set to 'true' to use ASAN for all host modules. Note that
                  ASAN_OPTIONS=detect_leaks=0 will be set by default until the
                  build is leak-check clean.
@@ -594,39 +623,6 @@ function brunch()
     else
         echo "No such item in brunch menu. Try 'breakfast'"
         return 1
-    fi
-    return $?
-}
-
-function breakfast()
-{
-    target=$1
-    local variant=$2
-    CM_DEVICES_ONLY="true"
-    unset LUNCH_MENU_CHOICES
-    add_lunch_combo full-eng
-    for f in `/bin/ls vendor/cm/vendorsetup.sh 2> /dev/null`
-        do
-            echo "including $f"
-            . $f
-        done
-    unset f
-
-    if [ $# -eq 0 ]; then
-        # No arguments, so let's have the full menu
-        lunch
-    else
-        echo "z$target" | grep -q "-"
-        if [ $? -eq 0 ]; then
-            # A buildtype was specified, assume a full device name
-            lunch $target
-        else
-            # This is probably just the CM model name
-            if [ -z "$variant" ]; then
-                variant="userdebug"
-            fi
-            lunch cm_$target-$variant
-        fi
     fi
     return $?
 }
@@ -2588,6 +2584,11 @@ function provision()
     "$ANDROID_PRODUCT_OUT/provision-device" "$@"
 }
 
+function addxostools() {
+    echo -e "$EF_BOLD""Including ""$CL_XOSBOLD"XOS Tools"$CL_RESET"
+    source $(gettop)/build/tools/xostools.sh
+}
+
 function make()
 {
     mk_timer $(get_make_command) "$@"
@@ -2638,3 +2639,5 @@ check_bash_version && {
 }
 
 export ANDROID_BUILD_TOP=$(gettop)
+
+addxostools
