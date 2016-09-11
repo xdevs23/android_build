@@ -159,7 +159,11 @@ function lunchauto() {
     else                               BUILD_TARGET_DEVICE=""
     fi
     echoe "Eating breakfast..."
-    breakfast $BUILD_TARGET_DEVICE
+    BREAKFAST_DEVICE="${BUILD_TARGET_DEVICE//XOS_/}"
+    BREAKFAST_DEVICE="${BREAKFAST_DEVICE//-userdebug/}"
+    BREAKFAST_DEVICE="${BREAKFAST_DEVICE//-user/}"
+    BREAKFAST_DEVICE="${BREAKFAST_DEVICE//-eng/}"
+    breakfast $BREAKFAST_DEVICE
     echoe "Lunching..."
     lunch $BUILD_TARGET_DEVICE
 }
