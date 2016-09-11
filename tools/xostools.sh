@@ -430,7 +430,7 @@ function reporesync() {
 
 function breakfast() {
     if [ -e "$(gettop)/.repo/local_manifests/$1.xml" ] && \
-        [ "$2" == " -f" ]; then
+        [ "$2" != "-f" ]; then
         echo -e "$CL_YELLOW""Warning: ""$CL_RESET""I already had my breakfast!"\
             "If you want to force me, add the -f switch at the end of your command."
         return 1
