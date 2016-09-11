@@ -22,6 +22,8 @@ function logd() {
 
 ### DEBUG SECTION END
 
+CURRENT_XOS_VERSION="XOS-7.0"
+
 ### VARIABLE DEFINITION START
 
 # Define empty variables
@@ -424,6 +426,13 @@ function reporesync() {
 
     esac
     cd $FRSTDIR
+}
+
+function breakfast() {
+    mkdir -p $(gettop)/.repo/local_manifests/
+    wget "https://gitlab.com/halogenOS/early_menu/raw/$CURRENT_XOS_VERSION/$1.xml" -O \
+        $(gettop)/.repo/local_manifests/$1.xml
+    reposync fast
 }
 
 # Rest is self-explanatory
