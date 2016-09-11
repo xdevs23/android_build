@@ -429,7 +429,14 @@ function reporesync() {
 }
 
 function breakfast() {
+    if [ -e "$(gettop)/.repo/local_manifests/$1.xml" ] && \
+        [ "$2" == " -f" ]; then
+        echo -e "$CL_YELLOW""Warning: ""$CL_RESET""I already had my breakfast!"\
+            "If you want to force me, add the -f switch at the end of your command."
+        return 1
+    fi
     mkdir -p $(gettop)/.repo/local_manifests/
+    rm -f $(gettop)/.repo/local_manifests/$1.xml
     wget "https://gitlab.com/halogenOS/early_menu/raw/$CURRENT_XOS_VERSION/$1.xml" -O \
         $(gettop)/.repo/local_manifests/$1.xml
     reposync fast
