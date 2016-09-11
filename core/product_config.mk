@@ -179,9 +179,13 @@ include $(BUILD_SYSTEM)/node_fns.mk
 include $(BUILD_SYSTEM)/product.mk
 include $(BUILD_SYSTEM)/device.mk
 
-# A CM build needs only the CM product makefiles.
-ifneq ($(CM_BUILD),)
-  all_product_configs := $(shell find device -path "*/$(CM_BUILD)/cm.mk")
+XOS_BUILD := $(subst XOS_,,$(TARGET_PRODUCT))
+$(info XOS BUILD $(XOS_BUILD))
+
+ifneq ($(strip $(TARGET_BUILD_APPS)),)
+# An unbundled app build needs only the core product makefiles.
+all_product_configs := $(call get-product-makefiles,\
+    $(SRC_TARGET_DIR)/product/AndroidProducts.mk)
 else
 
   ifneq ($(XOS_BUILD),)
