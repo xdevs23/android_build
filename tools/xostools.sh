@@ -304,9 +304,8 @@ function reposyncinternal() {
 
     # Sync!! Use the power of shell scripting!
     echo "Using $THREADS_REPO threads for sync."
-    [ $TOOL_ARG == "reposynclow" ] && echo "Saving bandwidth for free!"
     repo sync -j$THREADS_REPO  --force-sync $([ "$TOOL_ARG" == "reposynclow" ] \
-        && echo -en "-c -f --no-clone-bundle" || echo -en "") $TOOL_THIRDARG
+        && echo -en "-f --no-clone-bundle" || echo -en "") $TOOL_THIRDARG
 }
 
 # Slow sync? Alright!
